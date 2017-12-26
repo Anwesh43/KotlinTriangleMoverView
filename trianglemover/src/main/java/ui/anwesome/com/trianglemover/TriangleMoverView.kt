@@ -43,6 +43,9 @@ class TriangleMoverView(ctx:Context):View(ctx) {
         }
         fun startUpdating(new_x:Float,new_y:Float,startcb:()->Unit) {
             targetDeg = DirectionUtil.angle_from_xy(new_x,new_y,this.x,this.y)
+            if(360-targetDeg < targetDeg) {
+                targetDeg -= 360
+            }
             animatorQueue.addAnimation { scale ->
                 deg = targetDeg*scale
             }
