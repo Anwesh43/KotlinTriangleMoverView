@@ -52,4 +52,23 @@ class TriangleMoverView(ctx:Context):View(ctx) {
             startcb()
         }
     }
+    data class TriangleMoverRenderer(var view:TriangleMoverView,var time:Int = 0) {
+        var animator = TriangleViewAnimator(view)
+        var triangleMover:TriangleMover?=null
+        fun render(canvas:Canvas,paint:Paint) {
+            if(time == 0) {
+                val w = canvas.width.toFloat()
+                val h = canvas.height.toFloat()
+                triangleMover = TriangleMover(w/2,h/2,Math.min(w,h)/15)
+            }
+            canvas.drawColor(Color.parseColor("#212121"))
+            triangleMover?.draw(canvas,paint)
+            animator.update {
+                triangleMover?.update(animator.stopAnimation)
+            }
+        }
+        fun handleTap(x:Float,y:Float) {
+            triangleMover?.startUpdating(x,y,animator.startAnimation)
+        }
+    }
 }
