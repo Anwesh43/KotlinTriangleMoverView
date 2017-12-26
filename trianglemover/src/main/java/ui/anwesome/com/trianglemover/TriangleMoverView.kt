@@ -21,6 +21,7 @@ class TriangleMoverView(ctx:Context):View(ctx) {
         return true
     }
     data class TriangleMover(var x:Float,var y:Float,var size:Float,var deg:Float = 0f,var targetDeg:Float = 0f) {
+        val animatorQueue = AnimatorQueue()
         fun draw(canvas:Canvas,paint:Paint) {
             canvas.save()
             canvas.translate(x,y)
@@ -34,10 +35,21 @@ class TriangleMoverView(ctx:Context):View(ctx) {
             canvas.restore()
         }
         fun update(stopcb:()->Unit) {
-
+            animatorQueue.update(stopcb)
         }
-        fun startUpdating(x:Float,y:Float,startcb:()->Unit) {
-
+        fun startUpdating(new_x:Float,new_y:Float,startcb:()->Unit) {
+            targetDeg = DirectionUtil.angle_from_xy(new_x,new_y,this.x,this.y)
+            animatorQueue.addAnimation { scale ->
+                deg = targetDeg*scale
+            }
+            animatorQueue.addAnimation { scale ->
+                this.x = this.x+(new_x - this.x)*scale
+                this.y = this.y+(new_y - this.y)*scale
+            }
+            animatorQueue.addAnimation { scale ->
+                deg = targetDeg*(1-scale)
+            }
+            startcb()
         }
     }
 }
