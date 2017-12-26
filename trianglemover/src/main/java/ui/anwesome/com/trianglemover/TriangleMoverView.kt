@@ -20,4 +20,24 @@ class TriangleMoverView(ctx:Context):View(ctx) {
         }
         return true
     }
+    data class TriangleMover(var x:Float,var y:Float,var size:Float,var deg:Float = 0f,var targetDeg:Float = 0f) {
+        fun draw(canvas:Canvas,paint:Paint) {
+            canvas.save()
+            canvas.translate(x,y)
+            canvas.rotate(deg)
+            paint.color = Color.parseColor("#673AB7")
+            val path = Path()
+            path.moveTo(-size/2,size/2)
+            path.lineTo(size/2,size/2)
+            path.lineTo(0f,-size/2)
+            canvas.drawPath(path,paint)
+            canvas.restore()
+        }
+        fun update(stopcb:()->Unit) {
+
+        }
+        fun startUpdating(x:Float,y:Float,startcb:()->Unit) {
+
+        }
+    }
 }
