@@ -10,6 +10,9 @@ class AnimatorQueue(var scale:Float = 0f,var dir:Float = 0f) {
     fun addAnimation(animation:(Float)->Unit) {
         animations.add(animation)
     }
+    fun start() {
+        dir = 1f
+    }
     fun update(stopcb:()->Unit) {
         if(animations.size > 0) {
             scale += 0.1f*dir

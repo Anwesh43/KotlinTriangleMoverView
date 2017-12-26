@@ -13,7 +13,7 @@ class TriangleViewAnimator(var view:View,var animated:Boolean = false) {
         }
     }
     var stopAnimation:()->Unit = {
-        if(!animated) {
+        if(animated) {
             animated = true
         }
     }

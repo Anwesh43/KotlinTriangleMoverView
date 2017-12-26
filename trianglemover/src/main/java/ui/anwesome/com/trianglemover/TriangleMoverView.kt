@@ -27,13 +27,15 @@ class TriangleMoverView(ctx:Context):View(ctx) {
         fun draw(canvas:Canvas,paint:Paint) {
             canvas.save()
             canvas.translate(x,y)
-            canvas.rotate(deg)
+            canvas.rotate(deg+90f)
             paint.color = Color.parseColor("#673AB7")
             val path = Path()
             path.moveTo(-size/2,size/2)
             path.lineTo(size/2,size/2)
             path.lineTo(0f,-size/2)
             canvas.drawPath(path,paint)
+            paint.color = Color.parseColor("#01579B")
+            canvas.drawCircle(0f,-size/2,size/10,paint)
             canvas.restore()
         }
         fun update(stopcb:()->Unit) {
@@ -51,6 +53,7 @@ class TriangleMoverView(ctx:Context):View(ctx) {
             animatorQueue.addAnimation { scale ->
                 deg = targetDeg*(1-scale)
             }
+            animatorQueue.start()
             startcb()
         }
     }
@@ -61,13 +64,14 @@ class TriangleMoverView(ctx:Context):View(ctx) {
             if(time == 0) {
                 val w = canvas.width.toFloat()
                 val h = canvas.height.toFloat()
-                triangleMover = TriangleMover(w/2,h/2,Math.min(w,h)/15)
+                triangleMover = TriangleMover(w/2,h/2,Math.min(w,h)/9)
             }
             canvas.drawColor(Color.parseColor("#212121"))
             triangleMover?.draw(canvas,paint)
             animator.update {
                 triangleMover?.update(animator.stopAnimation)
             }
+            time++
         }
         fun handleTap(x:Float,y:Float) {
             triangleMover?.startUpdating(x,y,animator.startAnimation)

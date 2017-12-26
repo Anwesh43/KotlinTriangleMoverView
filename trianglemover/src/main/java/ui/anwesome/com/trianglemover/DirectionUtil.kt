@@ -15,8 +15,9 @@ class DirectionUtil {
                 return 270f
             }
             else {
-                var deg = (Math.atan(y_diff/x_diff)*(180/(Math.PI))).toFloat()
-                if(deg >= 0) {
+                var deg = (Math.atan(Math.abs(y_diff)/Math.abs(x_diff))*(180/(Math.PI))).toFloat()
+                var deg_factor = y_diff/x_diff
+                if(deg_factor>=0) {
                     if(x_diff > 0) {
                         return deg
                     }
