@@ -1,5 +1,6 @@
 package ui.anwesome.com.trianglemover
 
+import android.app.Activity
 import android.content.Context
 import android.view.*
 import android.graphics.*
@@ -70,6 +71,13 @@ class TriangleMoverView(ctx:Context):View(ctx) {
         }
         fun handleTap(x:Float,y:Float) {
             triangleMover?.startUpdating(x,y,animator.startAnimation)
+        }
+    }
+    companion object {
+        fun create(activity:Activity):TriangleMoverView {
+            val view:TriangleMoverView = TriangleMoverView(activity)
+            activity.setContentView(view)
+            return view
         }
     }
 }
